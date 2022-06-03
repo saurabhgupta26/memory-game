@@ -19,6 +19,7 @@ export default class Dashboard extends Component {
             count: 0,
             firstChoice: null,
             secondChoice: null,
+            matches: 0,
         }
     }
     disable = false;
@@ -39,7 +40,8 @@ export default class Dashboard extends Component {
                             } else {
                                 return tile;
                             }
-                        })
+                        }),
+                    matches: this.state.matches + 1,
                 });
                 this.resetChoices();
             } else {
@@ -55,7 +57,6 @@ export default class Dashboard extends Component {
             firstChoice: null,
             secondChoice: null,
             count: this.state.count + 1,
-            // disabled: false
         })
         this.disabled = false;
     }
@@ -63,7 +64,7 @@ export default class Dashboard extends Component {
         const shuffledDeck = [...this.state.tiles, ...this.state.tiles]
             .sort(() => Math.random() - 0.5)
             .map((card) => ({ ...card, id: Math.random() }))
-        this.setState({ shuffledTiles: shuffledDeck, firstChoice: null, secondChoice: null, count: 0 })
+        this.setState({ shuffledTiles: shuffledDeck, firstChoice: null, secondChoice: null, count: 0, matches: 0 })
     }
     handleChange = (card) => {
         if (!this.state.firstChoice) {
@@ -97,9 +98,13 @@ export default class Dashboard extends Component {
                     </div>
                     <div className="d-block">
                         <button className='btn_restart' onClick={this.shuffleDeck}> Restart</button>
-                        <div className="flex flex-start" style={{ margin: "100px" }}>
+                        <div className="flex flex-start" style={{ margin: "20px 100px" }}>
                             <h4 className="moves">Moves: </h4>
                             <p className='score'> &nbsp;{this.state.count}</p>
+                        </div>
+                        <div className="flex flex-start" style={{ margin: "-10px 80px" }}>
+                            <h4 className="moves">Matches: </h4>
+                            <p className='score'> &nbsp;{this.state.matches}/8</p>
                         </div>
                     </div>
                 </div>
